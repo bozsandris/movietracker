@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+def Apikey = '"' + Apikey + '"' ?: '"Apikey to themoviedb.org"'
+def STRING = 'String'
+
+android {
+    compileSdkVersion 26
+    buildToolsVersion '27.0.3'
+    defaultConfig {
+        applicationId "com.example.bozsi.futykos"
+        minSdkVersion 26
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        each{type -> type.buildConfigField STRING, 'Apikey', Apikey}
+        manifestPlaceholders = [Apikey : Apikey]
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug{
+            testCoverageEnabled = true
+        }
+    }
+    testOptions{
+        unitTests.returnDefaultValues = true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    implementation 'org.json:json:20180130'
+    implementation 'com.squareup.okhttp:okhttp:2.5.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.+'
+    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
+    testImplementation 'org.powermock:powermock:1.6.5'
+    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    implementation 'com.android.support:support-compat:26.1.0'
+}

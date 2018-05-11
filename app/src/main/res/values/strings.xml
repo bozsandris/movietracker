@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">schoolproject</string>
+    <string name="button2text">Save</string>
+    <string name="refreshtext">Refresh</string>
+    <string-array name="genres">
+        <item>None</item>
+        <item>Akció</item>
+        <item>Kaland</item>
+        <item>Animációs</item>
+        <item>Vígjáték</item>
+        <item>Bűnügyi</item>
+        <item>Dokumentum</item>
+        <item>Dráma</item>
+        <item>Családi</item>
+        <item>Fantasy</item>
+        <item>Történelmi</item>
+        <item>Horror</item>
+        <item>Zenei</item>
+        <item>Rejtély</item>
+        <item>Romantikus</item>
+        <item>Scifi</item>
+        <item>TV film</item>
+        <item>Thriller</item>
+        <item>Háborús</item>
+        <item>Western</item>
+    </string-array>
+</resources>
