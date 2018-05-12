@@ -85,7 +85,7 @@ public class MainActivity extends ListActivity {
                 while(cursor.moveToNext()){
                         //Open the database for modification
                         db = mDbHelper.getWritableDatabase();
-                        db.execSQL("DELETE FROM films WHERE TITLES = '"+titletodelete+"'");
+                        db.delete(Database.FeedEntry.TABLE_NAME, Database.FeedEntry.Titles+"='"+titletodelete+"'",null);
                         db.close();
                 }
             }

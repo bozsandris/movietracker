@@ -32,7 +32,6 @@ public class Details extends AppCompatActivity {
     Boolean saved=false;
     @Override
     protected void onCreate(Bundle savedInstance) {
-
         super.onCreate(savedInstance);
         setContentView(R.layout.second_activity);
         //Textview which shows the film's details
@@ -163,9 +162,9 @@ public class Details extends AppCompatActivity {
         // Create a new calendar and set it to one day before release date at 15pm
         Calendar c = Calendar.getInstance();
         //Months start from 0,so we have to subtract 1
-        c.set(year, month-1, day-1);
+        c.set(year, month-1, 12);
         c.set(Calendar.HOUR_OF_DAY, 15);
-        c.set(Calendar.MINUTE, 0);
+        c.set(Calendar.MINUTE, 24);
         c.set(Calendar.SECOND, 0);
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
         scheduleClient.setAlarmForNotification(c);
