@@ -92,20 +92,31 @@ public class NotifyService extends Service{
         CharSequence text = "The film you'd like to see will be presented tomorrow at your local cinema! Go check it out!";
         // What time to show on the notification
         long time = System.currentTimeMillis();
-
+        //The activity which the tap on the notification will start
+        Intent newintent = new Intent(this, MainActivity.class);
+        //Pass the title of the film to the activity to delete the film from the database
+        newintent.putExtra("title", title);
         // The PendingIntent to launch our activity if the user selects this notification
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, newintent, 0);
 
         //Set the options of our notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"M_CH_ID")
         .setAutoCancel(false)
+                //Title
         .setContentTitle(title)
+                //Description
         .setContentText(text)
+                //Icon
         .setSmallIcon(R.drawable.ic_stat_onesignal_default)
+                //Action on click
         .setContentIntent(contentIntent)
+                //Can be dismissed or not
         .setOngoing(true)
+                //Importance
         .setNumber(100)
+                //Time
         .setWhen(time)
+                //Cancel on tap
                 .setAutoCancel(true);
 
         // Send the notification to the system.

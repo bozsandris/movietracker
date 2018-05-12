@@ -2,7 +2,10 @@ package com.example.bozsi.schoolproject;
 
 import android.app.ListActivity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.BaseColumns;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -47,6 +51,45 @@ public class MainActivity extends ListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //If a notification's intent started the activity,get the intent
+        Bundle b = getIntent().getExtras();
+        //Store it in a string and then delete the film from the database
+        if( b != null){
+            String titletodelete = b.getString("title");
+            //Accessing the database by instantiating subclass of SQLiteOpenHelper
+            DatabaseReader mDbHelper = new DatabaseReader(this);
+            //Open the database for reading
+            SQLiteDatabase db = mDbHelper.getReadableDatabase();
+            String[] projection = {
+                    BaseColumns._ID,
+                    Database.FeedEntry.Titles};
+            //The column which we want to check
+                    String selection = Database.FeedEntry.Titles + "= ?";
+            //Selection arguments (the film's title in this case)
+            String[] selectionArgs = {titletodelete};
+            //Cursor interface provides read-write access to our database
+            Cursor cursor = db.query(
+                    Database.FeedEntry.TABLE_NAME,
+                    projection,
+                    selection,
+                    selectionArgs,
+
+                    null,
+                    null,
+                    null
+            );
+            //If we have matches then move to the row and delete it
+            if(cursor!=null)
+            {
+                //Move the cursor to the next row of the database
+                while(cursor.moveToNext()){
+                        //Open the database for modification
+                        db = mDbHelper.getWritableDatabase();
+                        db.execSQL("DELETE FROM films WHERE TITLES = '"+titletodelete+"'");
+                        db.close();
+                }
+            }
+        }
         setContentView(R.layout.activity_main);
         final Button refresh = findViewById(R.id.button);
         final Button back = findViewById(R.id.button3);
