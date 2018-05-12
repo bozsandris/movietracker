@@ -4,12 +4,11 @@ def Apikey = '"' + Apikey + '"' ?: '"Apikey to themoviedb.org"'
 def STRING = 'String'
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 27
     buildToolsVersion '27.0.3'
     defaultConfig {
-        applicationId "com.example.bozsi.futykos"
         minSdkVersion 26
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

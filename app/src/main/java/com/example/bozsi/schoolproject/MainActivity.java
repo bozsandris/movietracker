@@ -137,8 +137,11 @@ public class MainActivity extends ListActivity  {
             @Override
             public void onClick(View view) {
                 done=false;
+                //Start a new thread
                 if(t.getState() == Thread.State.NEW) t.start();
+                //If we had already started the thread,just call its run method
                 else t.run();
+                //Wait for the films to be downloaded
                 while(!done){Log.d("Info","We are in the while cycle");}
                 //Sets the download button invisible
                 refresh.setVisibility(View.INVISIBLE);
