@@ -131,7 +131,7 @@ public class Details extends AppCompatActivity {
                 }
                 //Close the cursor and release all of its resources
                 cursor.close();
-                //Disabels the save button because the film is saved
+                //Disables the save button because the film is saved
                 save.setEnabled(false);
             }
         });
