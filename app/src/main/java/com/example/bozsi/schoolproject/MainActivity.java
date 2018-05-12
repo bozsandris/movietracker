@@ -4,18 +4,15 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -27,15 +24,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class MainActivity extends ListActivity {
-    /***
-     * Themoviedb url with api key and preferable options
-     * */
+public class MainActivity extends ListActivity  {
+    //Parameter which is true when the films had been processed
+    boolean done;
+    //Our api key to the themoviedb.org site
     private String apikey = BuildConfig.Apikey;
+    //The response string from the api which we use
+    public String responsestring;
+    //Themoviedb url with api key and preferable options
     public String url =
     "https://api.themoviedb.org/3/movie/upcoming?api_key=" + apikey + "&language=en-EN&region=HU";
     Films films = new Films();
@@ -43,6 +42,39 @@ public class MainActivity extends ListActivity {
      * Films genres by their ids from the api documentation.
      * */
     Integer genres[] = {28,12,16,35,80,99,18,10751,14,36,27,10402,9648,10749,878,10770,53,10752,37};
+    /***
+     * Method which stores the downloaded films in the films object.
+     * @param result is a json converted to a string which we get after downloading the films.
+     * We parse the result string and store the films' details.
+     * Title,average vote,overview,genre and release date are being stored.
+     * */
+    public void addtolist(String result){
+        Log.d("Info","We are in the add to list method");
+        try {
+            JSONObject json = new JSONObject(result);
+            JSONArray results = json.getJSONArray("results");
+            //Number of films we downloaded data about
+            int length = results.length();
+            //Store the film's title,genre,overview,release date and average vote
+            //First check if it already had been stored.
+            for (int i = 0; i < length; i++) {
+                JSONObject objects = results.getJSONObject(i);
+                //if (!(films.title.contains(objects.getString("original_title"))))
+                {
+                    films.Add(objects.getString("original_title"),
+                            objects.getString("genre_ids").substring(1),
+                            objects.getString("overview"),
+                            objects.getString("release_date"),
+                            objects.getDouble("vote_average"));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            done=true;
+        }done=true;
+        Log.d("Value of done",""+done);
+    }
+
     /***
      * Show the films which match the selected genre.
      * Onclick  starts a new intent with the details of the film and a save button,
@@ -104,19 +136,10 @@ public class MainActivity extends ListActivity {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //We start a new thread if it isn't started yet
-                if(t.getState() == Thread.State.NEW)
-                {
-                t.start();
-                }
-                //If it is started then we execute the code on the thread
+                done=false;
+                if(t.getState() == Thread.State.NEW) t.start();
                 else t.run();
-                //Freezes the thread for 4 seconds while we download the films
-                try {
-                    Thread.sleep(4000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                while(!done){Log.d("Info","We are in the while cycle");}
                 //Sets the download button invisible
                 refresh.setVisibility(View.INVISIBLE);
                 //Download the films which matches the chosen genre
@@ -174,53 +197,39 @@ public class MainActivity extends ListActivity {
         films.genreids.clear();
         films.releasedate.clear();
     }
-    /**
-     * Downloads the films on a new thread in the background.
-     * Then we store the films' details.
-     * Title,average vote,overview,genre and release date are being stored.
+    /***
+     * Send a request to themoviedb.org api and we get back a json response.
+     * Then we convert it to a string and pass it to our addtolist() method,which
+     * will store the films in our Film object.
      * */
-    Thread t = new Thread() {
-                public void run() {
-                    OkHttpClient client = new OkHttpClient();
-                    //Send a request to the given url
-                    Request request = new Request.Builder()
-                            .url(url)
-                            .build();
-                    client.newCall(request).enqueue(new Callback() {
-                        //On failure we log that there was an error
-                        @Override
-                        public void onFailure(Request request, IOException e) {
+    Thread t = new Thread(){
+        public void run(){
+            OkHttpClient client = new OkHttpClient();
+            //Send a request to the given url
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            Response response = null;
+            try {
+                client.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Response response) throws IOException {
+                        try {responsestring = response.body().string();Log.d("Response text from api",responsestring);
+                            addtolist(responsestring);}
+                        catch (IOException e) {
                             e.printStackTrace();
-                            Log.e("Something went wrong","Couldn't download films.\n"+e.getMessage());
+                            responsestring = "error";
                         }
-                        //On response we get back the Json file as a string and then we parse it
-                        @Override
-                        public void onResponse(Response response) throws IOException {
-
-                            final String myResponse = response.body().string();
-
-                            try {
-                                JSONObject json = new JSONObject(myResponse);
-                                JSONArray results = json.getJSONArray("results");
-                                //Number of films we downloaded data about
-                                int length = results.length();
-                                //Store the film's title,genre,overview,release date and average vote
-                                //First check if it already had been stored.
-                                for (int i = 0; i < length; i++) {
-                                    JSONObject objects = results.getJSONObject(i);
-                                    if (!(films.title.contains(objects.getString("original_title")))) {
-                                        films.Add(objects.getString("original_title"),
-                                                objects.getString("genre_ids").substring(1),
-                                                objects.getString("overview"),
-                                                objects.getString("release_date"),
-                                                objects.getDouble("vote_average"));
-                                    }
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
-            };
+                    }
+                });
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            }
+        }
+    };
 }
