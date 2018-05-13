@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.BaseColumns;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -54,6 +55,7 @@ public class Details extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("Button pressed","Save button pressed");
                 /***
                  * Open our database for reading.
                  * */
@@ -93,6 +95,7 @@ public class Details extends AppCompatActivity {
                     long newRodId = db.insert(Database.FeedEntry.TABLE_NAME, null, values);
                     //Tell the user that the film is saved successfully
                     Toast.makeText(Details.this, "Saved", Toast.LENGTH_LONG).show();
+                    Log.i("Database","Film added to database");
                     //Set a notification to the film
                     Setnotification(index);
                 }
@@ -108,7 +111,8 @@ public class Details extends AppCompatActivity {
                             if(films.title.get(h).equals(check))
                             {
                                 //Tell the user that the film is already saved
-                                Toast.makeText(Details.this,"Film already saved",Toast.LENGTH_LONG).show();
+                                Toast.makeText(Details.this,"Film is already saved",Toast.LENGTH_LONG).show();
+                                Log.i("Database","Film is already saved");
                                 saved =true;
                                 break;
                             }
@@ -125,6 +129,7 @@ public class Details extends AppCompatActivity {
                             long newRodId = db.insert(Database.FeedEntry.TABLE_NAME,null,values);
                             //Tell the user that we save the film
                             Toast.makeText(Details.this,"Saved",Toast.LENGTH_LONG).show();
+                            Log.i("Database","Film saved to database");
                             //Set a notification to the film
                             Setnotification(index);
                         }
@@ -144,6 +149,7 @@ public class Details extends AppCompatActivity {
      * @param films2 film object
      * */
     public static void getIndex(int i,Films films2){
+        Log.i("Details","getIndex()");
         index = i;
         films = films2;
     }
@@ -177,6 +183,7 @@ public class Details extends AppCompatActivity {
         NotifyService.addtitle(films.title.get(index));
         // Notify the user what they just did
         Toast.makeText(this, "Notification set for: " + day +"/"+ month +"/"+(year)+" 15:00 PM",Toast.LENGTH_SHORT).show();
+        Log.i("Notification","Notification will be set for: " + day +"/"+ month +"/"+(year)+" 15:00 PM");
     }
     /***
      * When the activity is stopped,it stops the connection to the service which helped us set an alarm.
@@ -186,6 +193,7 @@ public class Details extends AppCompatActivity {
     protected void onStop() {
         if(scheduleClient != null)
             scheduleClient.doUnbindService();
+        Log.i("Service","Service unbound");
         super.onStop();
     }
 }

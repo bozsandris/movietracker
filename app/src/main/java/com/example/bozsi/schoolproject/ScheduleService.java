@@ -46,5 +46,6 @@ public class ScheduleService extends Service {
         // This starts a new thread to set the alarm
         // You want to push off your tasks onto a new thread to free up the UI to carry on responding
         new AlarmTask(this, c).run();
+        Log.i("Alarm","New thread is started to set the alarm");
     }
 }

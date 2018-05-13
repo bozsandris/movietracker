@@ -54,7 +54,7 @@ public class MainActivity extends ListActivity  {
      * Title,average vote,overview,genre and release date are being stored.
      * */
     public void addtolist(String result){
-        Log.d("Info","We are in the add to list method");
+        Log.i("MainActivity","addtolist()");
         try {
             JSONObject json = new JSONObject(result);
             JSONArray results = json.getJSONArray("results");
@@ -73,6 +73,7 @@ public class MainActivity extends ListActivity  {
                             objects.getDouble("vote_average"));
                 }
             }
+            Log.i("Films","Films added to object");
         } catch (JSONException e) {
             e.printStackTrace();
             done=true;
@@ -92,6 +93,7 @@ public class MainActivity extends ListActivity  {
         Bundle b = getIntent().getExtras();
         //Store it in a string and then delete the film from the database
         if( b != null){
+            Log.i("Intent","Intent is being handled in MainActivity");
             String titletodelete = b.getString("title");
             //Accessing the database by instantiating subclass of SQLiteOpenHelper
             DatabaseReader mDbHelper = new DatabaseReader(this);
@@ -141,13 +143,14 @@ public class MainActivity extends ListActivity  {
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("Button pressed","Refresh button pressed");
                 done=false;
                 //Start a new thread
                 if(t.getState() == Thread.State.NEW) t.start();
                 //If we had already started the thread,just call its run method
                 else t.run();
                 //Wait for the films to be downloaded
-                while(!done){Log.d("Info","We are in the while cycle");}
+                while(!done){Log.d("Waiting for response","We are in the while cycle");}
                 //Sets the download button invisible
                 refresh.setVisibility(View.INVISIBLE);
                 //Download the films which matches the chosen genre
@@ -172,8 +175,10 @@ public class MainActivity extends ListActivity  {
                      * */
                     @Override
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        Log.i("Listview","Item clicked from listview");
                         Details.getIndex(i,films);
                         Intent intent = new Intent(MainActivity.this,Details.class);
+                        Log.i("Intent","Starting new intent (Details)");
                         startActivity(intent);
                     }
                 });
@@ -186,6 +191,7 @@ public class MainActivity extends ListActivity  {
              * */
             @Override
             public void onClick(View view) {
+                Log.i("Button pressed","Back button pressed");
                 clearfilms();
                  back.setVisibility(View.INVISIBLE);
                  getListView().setVisibility(View.INVISIBLE);
@@ -212,6 +218,7 @@ public class MainActivity extends ListActivity  {
      * */
     Thread t = new Thread(){
         public void run(){
+            Log.i("New thread","New thread's run method");
             OkHttpClient client = new OkHttpClient();
             //Send a request to the given url
             Request request = new Request.Builder()

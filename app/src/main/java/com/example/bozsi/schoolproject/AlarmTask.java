@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import java.util.Calendar;
 /***
@@ -36,5 +37,6 @@ class AlarmTask implements Runnable {
 
         // Sets an alarm - note this alarm will be lost if the phone is turned off and on again
         am.set(AlarmManager.RTC, date.getTimeInMillis(),pendingIntent);
+        Log.i("Alarm","Alarm which will trigger the notification is configured");
     }
 }

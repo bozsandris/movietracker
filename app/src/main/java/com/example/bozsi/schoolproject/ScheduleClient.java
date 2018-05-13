@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.Calendar;
 /***
@@ -31,6 +32,7 @@ class ScheduleClient {
         // Establish a connection with our service
         mContext.bindService(new Intent(mContext, ScheduleService.class), mConnection, Context.BIND_AUTO_CREATE);
         mIsBound = true;
+        Log.i("Service","Activity connected to the service");
     }
 
     /***
@@ -55,6 +57,7 @@ class ScheduleClient {
      **/
     public void setAlarmForNotification(Calendar c){
         mBoundService.setAlarm(c);
+        Log.i("Service","Service is setting alarm to the specified date");
     }
 
     /***
@@ -66,6 +69,7 @@ class ScheduleClient {
             // Detach our existing connection.
             mContext.unbindService(mConnection);
             mIsBound = false;
+            Log.i("Service","Service unbound");
         }
     }
 }

@@ -126,6 +126,8 @@ public class NotifyService extends Service{
         /** Send the notification to the system.*/
         mNM.notify(NOTIFICATION, builder.build());
 
+        Log.i("Notification","Notification is configured and sent to the system");
+
         /** Stop the service when we are finished.*/
         stopSelf();
     }
