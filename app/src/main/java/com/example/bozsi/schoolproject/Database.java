@@ -1,7 +1,9 @@
 package com.example.bozsi.schoolproject;
 
 import android.provider.BaseColumns;
-
+/***
+ * Class which contains the basic informations of our database.
+ * */
 public final class Database {
     /***
      * To prevent someone from accidentally instantiating the contract class,
@@ -9,9 +11,11 @@ public final class Database {
      * */
         private Database(){}
 
-        // Inner class that defines the table contents
+        /** Inner class that defines the table contents.*/
         public static class FeedEntry implements BaseColumns{
+            /**Table's name as a string.*/
             public static final String TABLE_NAME = "films";
+            /**Column's name as string.*/
             public static final String Titles = "Original_title";
         }
 
@@ -22,6 +26,7 @@ public final class Database {
                 "CREATE TABLE " + FeedEntry.TABLE_NAME + "(" +
                         FeedEntry._ID + " INTEGER PRIMARY KEY," +
                         FeedEntry.Titles + " TEXT)";
+        /**Defines the delete entries sql command.*/
         protected static final String SQL_DELETE_ENTRIES =
                 "DROP TABLE IF EXISTS " + FeedEntry.TABLE_NAME;
 }

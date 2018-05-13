@@ -13,22 +13,23 @@ import android.widget.Toast;
 
 import java.util.Calendar;
 
+/***
+ * Class which shows the details of the film with a save button.
+ * Click on the button creates a database to which we save the film,
+ * and sets a reminder to watch the film when it comes out.
+ * */
 public class Details extends AppCompatActivity {
-    /***
-     * Shows the details of the film with a save button.
-     * Click on the button creates a database to which we save the film,
-     * and sets a reminder to watch the film when it comes out.
-     * */
-    //Accessing the database by instantiating subclass of SQLiteOpenHelper
+    /**Accessing the database by instantiating subclass of SQLiteOpenHelper.*/
     DatabaseReader mDbHelper = new DatabaseReader(this);
+    /**Textview to show the details of the film.*/
     TextView textView;
-    //Index of a film
+    /**Index of a film.*/
     static int index;
-    //Client which connects to our service
+    /**Client which connects to our service.*/
     private ScheduleClient scheduleClient;
-    //Object to store our films
+    /**Object to store our films.*/
     static Films films = new Films();
-    //A value to check if the film is stored
+    /**A value to check if the film is stored.*/
     Boolean saved=false;
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -138,6 +139,9 @@ public class Details extends AppCompatActivity {
     }
     /***
      * Gets the index of a film and the film object which contains films.
+     * Called from the MainActivity.
+     * @param i is the index
+     * @param films2 film object
      * */
     public static void getIndex(int i,Films films2){
         index = i;
@@ -145,6 +149,7 @@ public class Details extends AppCompatActivity {
     }
     /***
      * Sets a notification at 15 PM one day before the date,on which the film will be released in the cinemas.
+     * @param index is the index of the film's position in the lists
      * */
     public void Setnotification(int index){
         //Parsing the presentation date of the film

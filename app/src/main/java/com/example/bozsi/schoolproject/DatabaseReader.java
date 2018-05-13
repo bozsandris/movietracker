@@ -7,18 +7,22 @@ import android.database.sqlite.SQLiteOpenHelper;
 import static com.example.bozsi.schoolproject.Database.SQL_CREATE_ENTRIES;
 import static com.example.bozsi.schoolproject.Database.SQL_DELETE_ENTRIES;
 
+/***
+ * Subclass that overrides the onCreat() and onUpgrade() callback methods.
+ * */
 public class DatabaseReader extends SQLiteOpenHelper {
-    /***
-     * Subclass that overrides the onCreat() and onUpgrade() callback methods.
-     * */
-    //When changing the database schema,you must increment the version.
+    /**When changing the database schema,you must increment the version.*/
     public static final int DATABASE_VERSION = 1;
-    //Name of our database file
+    /**Name of our database file.*/
     public static final String DATABASE_NAME = "Film.db";
 
+    /**Class constructor.
+     * @param context context*/
     public DatabaseReader (Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
+    /**Oncreate method executes sql query which creates the database.
+     * @param db Sqlite database*/
     public void onCreate(SQLiteDatabase db){
         db.execSQL(SQL_CREATE_ENTRIES);
     }

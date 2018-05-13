@@ -7,12 +7,16 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.util.Calendar;
-
+/**
+ * Class for clients to access.
+ */
 public class ScheduleService extends Service {
     /**
-     * Class for clients to access
+     * Object which gets the scheduleservice.
      */
     public class ServiceBinder extends Binder {
+        /**Constructor.
+         * @return object*/
         ScheduleService getService() {
             return ScheduleService.this;
         }
@@ -31,11 +35,12 @@ public class ScheduleService extends Service {
         return mBinder;
     }
 
-    // This is the object that receives interactions from clients. See
+    /**This is the object that receives interactions from clients.*/
     private final IBinder mBinder = new ServiceBinder();
 
     /**
-     * Show an alarm for a certain date when the alarm is called it will pop up a notification
+     * Show an alarm for a certain date when the alarm is called it will pop up a notification.
+     * @param c date when the alarm will be triggered
      */
     public void setAlarm(Calendar c) {
         // This starts a new thread to set the alarm

@@ -27,16 +27,21 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/***
+ * Class which downloads the films' details from themoviedb.org.
+ * */
 public class MainActivity extends ListActivity  {
-    //Parameter which is true when the films had been processed
+
+    /**Parameter which is true when the films had been processed.*/
     boolean done;
-    //Our api key to the themoviedb.org site
+    /**Our api key to the themoviedb.org site.*/
     private String apikey = BuildConfig.Apikey;
-    //The response string from the api which we use
+    /**The response string from the api which we use.*/
     public String responsestring;
-    //Themoviedb url with api key and preferable options
+    /**Themoviedb url with api key and preferable options.*/
     public String url =
     "https://api.themoviedb.org/3/movie/upcoming?api_key=" + apikey + "&language=en-EN&region=HU";
+    /**Object which store the films' details.*/
     Films films = new Films();
     /***
      * Films genres by their ids from the api documentation.

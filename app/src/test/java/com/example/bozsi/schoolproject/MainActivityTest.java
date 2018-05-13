@@ -43,10 +43,4 @@ public class MainActivityTest {
         mainActivity.clearfilms();
         assertTrue(mainActivity.films.title.size()==0);
     }
-  /*  @Test
-    public void onstartcommand() throws Exception {
-        NotifyService notifyService = new NotifyService();
-        Intent intent = new Intent();
-        assertThat(notifyService.onStartCommand(intent,0,0), instanceOf(int.class));
-    }*/
 }

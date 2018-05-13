@@ -7,21 +7,25 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 
 import java.util.Calendar;
-
+/***
+ * The client which will connect to our service.
+ * */
 class ScheduleClient {
-    // The hook into our service
+    /**The hook into our service.*/
     private ScheduleService mBoundService;
-    // The context to start the service in
+    /**The context to start the service in.*/
     private Context mContext;
-    // A flag if we are connected to the service or not
+    /**A flag if we are connected to the service or not.*/
     private boolean mIsBound;
 
+    /**Gets the context in which we will start the service.
+     * @param context  context*/
     public ScheduleClient(Context context) {
         mContext = context;
     }
 
     /***
-     * Call this to connect your activity to your service
+     * Call this to connect your activity to your service.
      **/
     public void doBindService() {
         // Establish a connection with our service
@@ -46,7 +50,7 @@ class ScheduleClient {
     };
 
     /***
-     * Tell our service to set an alarm for the given date
+     * Tell our service to set an alarm for the given date.
      * @param c a date to set the notification for
      **/
     public void setAlarmForNotification(Calendar c){
