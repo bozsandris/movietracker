@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'checkstyle'
+apply from: '../jacoco.gradle'
+
 
 def Apikey = '"' + Apikey + '"' ?: '"Apikey to themoviedb.org"'
 def STRING = 'String'
@@ -26,6 +28,7 @@ android {
             testCoverageEnabled = true
         }
     }
+
     testOptions{
         unitTests.returnDefaultValues = true
     }
@@ -53,7 +56,7 @@ dependencies {
     implementation 'org.json:json:20180130'
     implementation 'com.squareup.okhttp:okhttp:2.5.0'
     testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-core:2.+'
+     testImplementation 'org.mockito:mockito-core:2.+'
     testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
     testImplementation 'org.powermock:powermock:1.6.5'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.5'

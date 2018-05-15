@@ -35,7 +35,7 @@ class AlarmTask implements Runnable {
         intent.putExtra(NotifyService.INTENT_NOTIFY, true);
         PendingIntent pendingIntent = PendingIntent.getService(context, 0, intent, 0);
 
-        // Sets an alarm - note this alarm will be lost if the phone is turned off and on again
+        // Sets an alarm
         am.set(AlarmManager.RTC, date.getTimeInMillis(),pendingIntent);
         Log.i("Alarm","Alarm which will trigger the notification is configured");
     }
