@@ -90,8 +90,6 @@ public class NotifyService extends Service{
          * */
         CharSequence title = Titles.get(Titles.size()-1);
         Titles.remove(Titles.size()-1);
-        /** This is the icon to use on the notification.*/
-        int icon; /** = R.drawable.ic_dialog_alert;
         /** This is the scrolling text of the notification.*/
         CharSequence text = "The film you'd like to see will be presented tomorrow at your local cinema! Go check it out!";
         /** What time to show on the notification.*/
@@ -105,7 +103,6 @@ public class NotifyService extends Service{
 
         /**Set the options of our notification.*/
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this,"M_CH_ID")
-        .setAutoCancel(false)
                 //Title
         .setContentTitle(title)
                 //Description
@@ -116,12 +113,10 @@ public class NotifyService extends Service{
         .setContentIntent(contentIntent)
                 //Can be dismissed or not
         .setOngoing(true)
-                //Importance
-        .setNumber(100)
                 //Time
         .setWhen(time)
                 //Cancel on tap
-                .setAutoCancel(true);
+        .setAutoCancel(true);
 
         /** Send the notification to the system.*/
         mNM.notify(NOTIFICATION, builder.build());

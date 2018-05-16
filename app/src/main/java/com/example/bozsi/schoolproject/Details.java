@@ -166,17 +166,14 @@ public class Details extends AppCompatActivity {
         String monthstring = date.substring(5,7);
         //Day of the date
         String daystring = date.substring(8,10);
-        //Conver the string to integer
+        //Convert the string to integer
         int day = Integer.parseInt(daystring);
         int month = Integer.parseInt(monthstring);
         int year = Integer.parseInt(yearstring);
         // Create a new calendar and set it to one day before release date at 15pm
         Calendar c = Calendar.getInstance();
         //Months start from 0,so we have to subtract 1
-        c.set(year, month-1, 15);
-        c.set(Calendar.HOUR_OF_DAY, 15);
-        c.set(Calendar.MINUTE, 40);
-        c.set(Calendar.SECOND, 0);
+        c.set(year, month-1, day,15,0,0);
         // Ask our service to set an alarm for that date, this activity talks to the client that talks to the service
         scheduleClient.setAlarmForNotification(c);
         //Set our films title as the future notification's title

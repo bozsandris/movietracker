@@ -37,6 +37,6 @@ class AlarmTask implements Runnable {
 
         // Sets an alarm
         am.set(AlarmManager.RTC, date.getTimeInMillis(),pendingIntent);
-        Log.i("Alarm","Alarm which will trigger the notification is configured");
+        Log.i("Alarm","Alarm which will trigger the notification is configured ");
     }
 }

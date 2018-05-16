@@ -14,7 +14,7 @@ public class DatabaseReader extends SQLiteOpenHelper {
     /**When changing the database schema,you must increment the version.*/
     public static final int DATABASE_VERSION = 1;
     /**Name of our database file.*/
-    public static final String DATABASE_NAME = "Filmtes.db";
+    public static final String DATABASE_NAME = "Films.db";
 
     /**Class constructor.
      * @param context context*/
