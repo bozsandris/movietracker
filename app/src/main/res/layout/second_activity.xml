@@ -11,7 +11,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            tools:context="com.example.bozsi.schoolproject.Details">
+            tools:context="com.example.bozsi.view.Details">
 
     <TextView
         android:id="@+id/textView"
